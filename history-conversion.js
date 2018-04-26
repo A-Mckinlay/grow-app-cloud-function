@@ -15,16 +15,17 @@ function handlePOST(req, res) {
     const os = require('os');
     const tmpdir = os.tmpdir()
 
+    const b64History = req.body;
     const filePath = path.join(tmpdir, 'history.csv')
 
-    const history = FlowerPowerHistory(b64History, startupTime)
+    const history = FlowerPowerHistory(b64History)
     const stream = fs.createWriteStream(filePath)
     stream.once('open', (fd) => {
         history.writeCSV(stream)
         stream.end()
     })
 
-    const stat = fs.statSync()
+    const stat = fs.statSync(filePath)
     res.writeHead(200, {
         'Content-Type': 'text/csv',
         'Content-Length': stat.size
