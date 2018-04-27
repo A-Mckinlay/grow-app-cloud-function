@@ -19,7 +19,9 @@ function handlePOST(req, res) {
         const stat = fs.statSync(filePath)
         res.writeHead(200, {
             'Content-Type': 'text/csv',
-            'Content-Length': stat.size
+            'Content-Length': stat.size,
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST'
         })
         const readStream = fs.createReadStream(filePath)
         readStream.pipe(res);
