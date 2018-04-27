@@ -2,7 +2,7 @@
   "name": "grow-app-functions",
   "version": "1.0.0",
   "description": "Google cloud function to convert flower power history file",
-  "main": "history-conversion.js",
+  "main": "growappfunc.js",
   "dependencies": {
     "flower-power-history": "^1.0.0"
   },
