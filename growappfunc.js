@@ -20,8 +20,6 @@ function handlePOST(req, res) {
         res.writeHead(200, {
             'Content-Type': 'text/csv',
             'Content-Length': stat.size,
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST'
         })
         const readStream = fs.createReadStream(filePath)
         readStream.pipe(res);
