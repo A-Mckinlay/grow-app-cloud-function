@@ -1,14 +1,16 @@
 function handlePOST(req, res) {
     const FlowerPowerHistory = require('flower-power-history')
     const fs = require('fs')
-    const path = require('path');
-    const os = require('os');
+    const path = require('path')
+    const os = require('os')
 
     const tmpdir = os.tmpdir()
-    const b64History = req.body;
+    const reqObj = JSON.parse(req.body)
+    const b64History = reqObj.b64History
+    const startupTime = reqObj.startupTime
     const filePath = path.join(tmpdir, 'history.csv')
 
-    const history = FlowerPowerHistory(b64History)
+    const history = FlowerPowerHistory(b64History, startupTime)
     const stream = fs.createWriteStream(filePath)
     stream.once('open', (fd) => {
         history.writeCSV(stream)
@@ -22,7 +24,7 @@ function handlePOST(req, res) {
             'Content-Length': stat.size,
         })
         const readStream = fs.createReadStream(filePath)
-        readStream.pipe(res);
+        readStream.pipe(res)
     })  
 }
 
@@ -36,10 +38,10 @@ function handlePOST(req, res) {
 exports.growappfunc = (req, res) => {
     switch (req.method) {
         case 'POST':
-            handlePOST(req, res);
-            break;
+            handlePOST(req, res)
+            break
         default:
-            res.status(500).send({ error: 'Something blew up!' });
-            break;
+            res.status(500).send({ error: 'Something blew up!' })
+            break
     }
-};
+}
